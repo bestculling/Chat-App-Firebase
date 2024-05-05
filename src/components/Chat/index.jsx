@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react"
+import { db } from '../../lib/firebase';
 import EmojiPicker from "emoji-picker-react"
 import "./chat.css"
+import { doc, onSnapshot } from "firebase/firestore";
 
 function index() {
+  const [chat, setChat] = useState()
   const [open, setOpen] = useState(false)
   const [text, setText] = useState()
 
@@ -11,6 +14,18 @@ function index() {
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [])
+
+  // useEffect(() => {
+
+  //   const unSub = onSnapshot(doc(db, "chats", ""), (res) => {
+  //     setChat(res.data())
+  //   })
+
+  //   return () => {
+  //     unSub()
+  //   }
+
+  // }, [])
 
   const handleEmoji = e => {
     setText((prev) => prev + e.emoji)
@@ -49,7 +64,7 @@ function index() {
         </div>
         <div className="message own">
           <div className="texts">
-          <img src="./avatar.png" alt="" />
+            <img src="./avatar.png" alt="" />
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat repellendus odio voluptatibus odit praesentium ipsum quam ducimus voluptas animi aliquam itaque mollitia adipisci quidem perferendis, ipsam neque? Quos, nihil culpa.</p>
             <span>1 min ago</span>
           </div>
